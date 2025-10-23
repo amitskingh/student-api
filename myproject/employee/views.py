@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Student
+from .models import Employee
 from rest_framework.views import APIView
 from .serializers import ListSerializer
 
@@ -11,7 +11,7 @@ from .serializers import ListSerializer
 class ListAndCreateSerializer(APIView):
 
     def get(self, request):
-        results = Student.objects.all()
+        results = Employee.objects.all()
 
         serializer = ListSerializer(results, many=True)
 
@@ -34,13 +34,13 @@ class SingleObjectSerializer(APIView):
     def get(self, request, pk):
 
         try:
-            result = Student.objects.get(pk=pk)
+            result = Employee.objects.get(pk=pk)
 
             serializer = ListSerializer(result)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        except Student.DoesNotExist:
+        except Employee.DoesNotExist:
             return Response(
                 {"ERROR": "Data does not exists"}, status=status.HTTP_404_NOT_FOUND
             )
@@ -53,10 +53,10 @@ class SingleObjectSerializer(APIView):
 
     def get_object(self, pk):
         try:
-            result = Student.objects.get(pk=pk)
+            result = Employee.objects.get(pk=pk)
             return result
 
-        except Student.DoesNotExist:
+        except Employee.DoesNotExist:
             return Response(
                 {"ERROR": "Data does not exists"}, status=status.HTTP_404_NOT_FOUND
             )
